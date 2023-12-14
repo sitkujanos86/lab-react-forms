@@ -12,48 +12,55 @@ function App() {
   const [image, setImage] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
-  const [program, setProgram] = useState("None");
-  const [graduationYear, setGraduationYear] = useState(2023); 
+  const [program, setProgram] = useState("");
+  const [graduationYear, setGraduationYear] = useState(2023);
   const [graduated, setGraduated] = useState(false);
-  
 
   return (
     <div className="App pt-20">
       <Navbar />
 
       {/* FORM */}
-      <form>
+      <form onSubmit={(e) => e.preventDefault()}>
         <span>Add a Student</span>
         <div>
           <label>
             Full Name
-            <input name="fullName" 
-            type="text" 
-            onChange={setFullName} 
-             />
+            <input
+              name="fullName"
+              value={fullName}
+              type="text"
+              onChange={(e) => setFullName(e.target.value)}
+            />
           </label>
 
           <label>
             Profile Image
-            <input name="image" 
-            type="url" 
-            onChange={setImage}
+            <input
+              name="image"
+              value={image}
+              type="url"
+              onChange={(e) => setImage(e.target.value)}
             />
           </label>
 
           <label>
             Phone
-            <input name="phone" 
-            type="tel" 
-            onChange={setPhone}
+            <input
+              name="phone"
+              value={phone}
+              type="tel"
+              onChange={(e) => setPhone(e.target.value)}
             />
           </label>
 
           <label>
             Email
-            <input name="email" 
-            type="email" 
-            onChange={setEmail}
+            <input
+              name="email"
+              value={email}
+              type="email"
+              onChange={(e) => setEmail(e.target.value)}
             />
           </label>
         </div>
@@ -61,8 +68,8 @@ function App() {
         <div>
           <label>
             Program
-            <select name="program">
-              <option value="">-- None --</option>
+            <select onChange={(e) => setProgram(e.target.value)} name="program">
+              <option value={program}>-- None --</option>
               <option value="Web Dev">Web Dev</option>
               <option value="UXUI">UXUI</option>
               <option value="Data">Data</option>
@@ -72,6 +79,7 @@ function App() {
           <label>
             Graduation Year
             <input
+              value={graduationYear}
               name="graduationYear"
               type="number"
               placeholder="Graduation Year"
@@ -79,24 +87,45 @@ function App() {
               maxLength={4}
               min={2023}
               max={2030}
+              onChange={(e) => setGraduationYear(e.target.value)}
             />
           </label>
 
           <label>
             Graduated
-            <input name="graduated" type="checkbox" />
+            <input
+              value={graduated}
+              name="graduated"
+              type="checkbox"
+              onChange={(e) => setGraduated(e.target.value)}
+            />
           </label>
 
-          <button type="submit">Add Student</button>
+          <button
+            type="submit"
+            onClick={() => {
+              setStudents([
+                ...students,
+                {
+                  fullName: fullName,
+                  email: email,
+                  phone: phone,
+                  program: program,
+                  image: image,
+                  graduationYear: graduationYear,
+                  graduated: graduated,
+                },
+              ]);
+            }}
+          >
+            Add Student
+          </button>
         </div>
-
       </form>
       {/* FORM END */}
 
-
       {/* TABLE/LIST HEADER */}
       <TableHeader />
-
 
       {/* STUDENT LIST */}
       {students &&
